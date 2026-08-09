@@ -1,17 +1,35 @@
 import { useState } from "react";
 
-function AddMember({ addMember }) {
+function AddMember({ addMember, existingNames }) {
 
     const [name, setName] = useState("");
 
+    const [error, setError] = useState("");
+
     const submit = () => {
 
-        if (!name.trim()) return;
+        const trimmed = name.trim();
 
-        addMember(name);
+        if (!trimmed) {
+            setError("Enter a name before adding.");
+            return;
+        }
+
+        if (existingNames.some((n) => n.toLowerCase() === trimmed.toLowerCase())) {
+            setError("That member already exists.");
+            return;
+        }
+
+        addMember(trimmed);
 
         setName("");
 
+        setError("");
+
+    };
+
+    const onKeyDown = (e) => {
+        if (e.key === "Enter") submit();
     };
 
     return (
@@ -22,12 +40,19 @@ function AddMember({ addMember }) {
 
             <input
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Member Name"
+                onChange={(e) => {
+                    setName(e.target.value);
+                    if (error) setError("");
+                }}
+                onKeyDown={onKeyDown}
+                placeholder="Member name"
+                className={error ? "input-error" : ""}
             />
 
+            {error && <p className="error-text">{error}</p>}
+
             <button onClick={submit}>
-                Add
+                Add Member
             </button>
 
         </div>

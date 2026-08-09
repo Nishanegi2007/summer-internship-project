@@ -5,35 +5,35 @@ function Dashboard({ members, contributions }) {
         0
     );
 
+    const avgHours = members.length
+        ? (totalHours / members.length).toFixed(1)
+        : 0;
+
     return (
 
-        <div className="dashboard">
+        <section className="dashboard">
 
-            <div className="card">
-
-                <h3>Members</h3>
-
-                <h1>{members.length}</h1>
-
+            <div className="card stat-card">
+                <span className="stat-label">Members</span>
+                <span className="stat-value">{members.length}</span>
             </div>
 
-            <div className="card">
-
-                <h3>Total Hours</h3>
-
-                <h1>{totalHours}</h1>
-
+            <div className="card stat-card">
+                <span className="stat-label">Total Hours</span>
+                <span className="stat-value">{totalHours}</span>
             </div>
 
-            <div className="card">
-
-                <h3>Tasks</h3>
-
-                <h1>{contributions.length}</h1>
-
+            <div className="card stat-card">
+                <span className="stat-label">Tasks Logged</span>
+                <span className="stat-value">{contributions.length}</span>
             </div>
 
-        </div>
+            <div className="card stat-card">
+                <span className="stat-label">Avg Hours / Member</span>
+                <span className="stat-value">{avgHours}</span>
+            </div>
+
+        </section>
 
     );
 
